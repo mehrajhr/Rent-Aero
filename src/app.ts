@@ -6,6 +6,7 @@ import express, {
 import cors from "cors";
 import config from "./config";
 import cookieParser from "cookie-parser";
+import { authRoutes } from "./modules/auth/auth.route";
 
 const app: Application = express();
 
@@ -24,6 +25,6 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Hello Rent Aero Users!");
 });
 
-
+app.use("/api/auth", authRoutes);
 
 export default app;
