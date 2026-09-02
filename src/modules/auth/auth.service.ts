@@ -4,7 +4,7 @@ import { prisma } from "../../lib/prisma";
 import type { ILoginUser, IRegisterUser } from "./auth.interface";
 import config from "../../config";
 import { jwtUtils } from "../../utils/jwtUtils";
-import type { SignOptions } from "jsonwebtoken";
+import type { JwtPayload, SignOptions } from "jsonwebtoken";
 
 const registerUserInDB = async (payload: IRegisterUser) => {
   const { name, email, password, role } = payload;
@@ -110,7 +110,44 @@ const loginUserInDB = async (payload: ILoginUser) => {
   };
 };
 
+const refreshToken = async (token: string) => {
+  const verifiedToken = jwtUtils.verifyToken(token, config.jwt_refresh_secret);
+  if (!verifiedToken.success) {
+    throw new Error(verifiedToken.message);
+  }
+
+  const { id } = verifiedToken.data as JwtPayload;
+
+  const user = await prisma.user.findUniqueOrThrow({
+    where: {
+      id,
+    },
+  });
+
+  if (user.status === UserStatus.SUSPENDED) {
+    throw new Error("User is suspended ! Please contact to support");
+  }
+
+  const jwtPayload = {
+    id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+  };
+
+  const accessToken = jwtUtils.createToken(
+    jwtPayload,
+    config.jwt_access_secret,
+    config.jwt_access_expiresin as SignOptions,
+  );
+
+  return {
+    accessToken,
+  };
+};
+
 export const authService = {
   registerUserInDB,
   loginUserInDB,
+  refreshToken,
 };
