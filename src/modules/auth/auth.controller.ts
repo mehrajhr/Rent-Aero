@@ -18,6 +18,41 @@ const registerUser = catchAsync(
   },
 );
 
+const loginUser = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const payload = req.body;
+    const { accessToken, refreshToken } =
+      await authService.loginUserInDB(payload);
+
+    // console.log("Accesss token: ", accessToken, "Refresh Token:", refreshToken);
+
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "none",
+      maxAge: 1000 * 60 * 60 * 24,
+    });
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "none",
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    });
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "User loged in successfully.",
+      data: {
+        accessToken,
+        refreshToken,
+      },
+    });
+  },
+);
+
 export const authController = {
   registerUser,
+  loginUser,
 };
