@@ -13,5 +13,10 @@ router.get(
   auth(Role.ADMIN, Role.CUSTOMER, Role.PROVIDER),
   authController.getUser,
 );
+router.patch(
+  "/me/update",
+  auth(Role.ADMIN, Role.CUSTOMER, Role.PROVIDER),
+  authController.updateUser,
+);
 
 export const authRoutes = router;

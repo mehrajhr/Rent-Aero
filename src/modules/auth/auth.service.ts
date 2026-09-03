@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import { Role, UserStatus } from "../../../prisma/generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
-import type { ILoginUser, IRegisterUser } from "./auth.interface";
+import type { ILoginUser, IRegisterUser, IUpdateUser } from "./auth.interface";
 import config from "../../config";
 import { jwtUtils } from "../../utils/jwtUtils";
 import type { JwtPayload, SignOptions } from "jsonwebtoken";
@@ -157,10 +157,62 @@ const getUser = async (id: string) => {
   });
 
   if (!user) {
-    throw new Error("Sorry! This user doesn't exist in our system.");
+    throw new Error("User not found!");
   }
 
   return user;
+};
+
+const updateUser = async (id: string, payload: IUpdateUser) => {
+  const { name, email, role } = payload;
+
+  const existingUser = await prisma.user.findUnique({
+    where: { id },
+  });
+
+  if (!existingUser) {
+    throw new Error("User not found.");
+  }
+
+  if (role === Role.ADMIN) {
+    throw new Error("Unauthorized: You cannot change your role to ADMIN.");
+  }
+
+  if (role && role !== Role.CUSTOMER && role !== Role.PROVIDER) {
+    throw new Error(
+      "Invalid role. You can only switch between CUSTOMER and PROVIDER.",
+    );
+  }
+
+  if (email && email !== existingUser.email) {
+    const emailExists = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (emailExists) {
+      throw new Error("Email is already in use by another account.");
+    }
+  }
+
+  const updatedUser = await prisma.user.update({
+    where: { id },
+    data: {
+      name: name !== undefined ? name : existingUser.name,
+      email: email !== undefined ? email : existingUser.email,
+      role: role !== undefined ? role : existingUser.role,
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      role: true,
+      status: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
+
+  return {updatedUser};
 };
 
 export const authService = {
@@ -168,4 +220,5 @@ export const authService = {
   loginUserInDB,
   refreshToken,
   getUser,
+  updateUser,
 };
