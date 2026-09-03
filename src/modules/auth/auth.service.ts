@@ -146,8 +146,13 @@ const refreshToken = async (token: string) => {
   };
 };
 
+const getUser = async() => {
+
+}
+
 export const authService = {
   registerUserInDB,
   loginUserInDB,
   refreshToken,
+  getUser
 };

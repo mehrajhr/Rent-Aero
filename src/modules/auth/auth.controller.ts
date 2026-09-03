@@ -55,7 +55,7 @@ const loginUser = catchAsync(
 const refreshToken = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { refreshToken } = req.cookies;
-    const {accessToken} = await authService.refreshToken(refreshToken);
+    const { accessToken } = await authService.refreshToken(refreshToken);
 
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
@@ -73,8 +73,15 @@ const refreshToken = catchAsync(
   },
 );
 
+const getUser = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+
+  },
+);
+
 export const authController = {
   registerUser,
   loginUser,
   refreshToken,
+  getUser,
 };
