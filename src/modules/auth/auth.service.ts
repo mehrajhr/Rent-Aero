@@ -146,13 +146,26 @@ const refreshToken = async (token: string) => {
   };
 };
 
-const getUser = async() => {
+const getUser = async (id: string) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id,
+    },
+    omit: {
+      password: true,
+    },
+  });
 
-}
+  if (!user) {
+    throw new Error("Sorry! This user doesn't exist in our system.");
+  }
+
+  return user;
+};
 
 export const authService = {
   registerUserInDB,
   loginUserInDB,
   refreshToken,
-  getUser
+  getUser,
 };

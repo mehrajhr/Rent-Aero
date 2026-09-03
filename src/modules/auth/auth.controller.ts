@@ -75,7 +75,14 @@ const refreshToken = catchAsync(
 
 const getUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
+    const user = await authService.getUser(req.user?.id as string);
 
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "User profile fetched succesfully.",
+      data: { user },
+    });
   },
 );
 
