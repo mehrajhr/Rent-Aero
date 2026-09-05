@@ -7,5 +7,6 @@ const router = Router();
 
 router.get("/", categoryController.getAllCategories);
 router.post("/", auth(Role.ADMIN), categoryController.createCategory);
+router.patch("/:id", auth(Role.ADMIN), categoryController.updateCategory);
 
 export const categoryRoutes = router;

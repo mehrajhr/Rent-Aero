@@ -3,3 +3,9 @@ export interface ICreateCategory {
   slug: string;
   isActive?: boolean;
 }
+
+export interface IUpdateCategory {
+  name?: string;
+  slug?: string;
+  isActive?: boolean;
+}
