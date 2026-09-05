@@ -9,6 +9,7 @@ import cookieParser from "cookie-parser";
 import { authRoutes } from "./modules/auth/auth.route";
 import { adminRoutes } from "./modules/admin/admin.route";
 import { categoryRoutes } from "./modules/category/category.route";
+import { gearRoutes } from "./modules/gear/gear.route";
 
 const app: Application = express();
 
@@ -30,5 +31,6 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/categories", categoryRoutes);
+app.use("/api/gear", gearRoutes);
 
 export default app;
