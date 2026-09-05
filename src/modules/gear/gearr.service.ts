@@ -1,5 +1,131 @@
+import type { GearItemWhereInput } from "../../../prisma/generated/prisma/models";
 import { prisma } from "../../lib/prisma";
-import type { ICreateGear, IUpdateGear } from "./gear.interface";
+import type {
+  ICreateGear,
+  IGearFilterRequest,
+  IUpdateGear,
+} from "./gear.interface";
+
+const getGearItem = async (filters: IGearFilterRequest) => {
+  const {
+    searchTerm,
+    category,
+    brand,
+    minPrice,
+    maxPrice,
+    sortBy = "createdAt",
+    sortOrder = "desc",
+    page = 1,
+    limit = 10,
+  } = filters;
+
+  const pageNumber = Number(page);
+  const limitNumber = Number(limit);
+  const skip = (pageNumber - 1) * limitNumber;
+
+  const andConditions: GearItemWhereInput[] = [];
+
+  if (searchTerm) {
+    andConditions.push({
+      OR: [
+        {
+          name: {
+            contains: searchTerm,
+            mode: "insensitive",
+          },
+        },
+        {
+          description: {
+            contains: searchTerm,
+            mode: "insensitive",
+          },
+        },
+        {
+          brand: {
+            contains: searchTerm,
+            mode: "insensitive",
+          },
+        },
+      ],
+    });
+  }
+
+  if (category) {
+    andConditions.push({
+      category: {
+        OR: [
+          {
+            name: category,
+          },
+          {
+            slug: category,
+          },
+        ],
+      },
+    });
+  }
+
+  if (brand) {
+    andConditions.push({
+      brand: {
+        contains: brand,
+        mode: "insensitive",
+      },
+    });
+  }
+
+  if (minPrice !== undefined || maxPrice !== undefined) {
+    andConditions.push({
+      pricePerDay: {
+        ...(minPrice !== undefined && { gte: Number(minPrice) }),
+        ...(maxPrice !== undefined && { lte: Number(maxPrice) }),
+      },
+    });
+  }
+
+  const gearItems = await prisma.gearItem.findMany({
+    where: {
+      AND: andConditions,
+    },
+    skip,
+    take: limitNumber,
+    orderBy: {
+      [sortBy]: sortOrder,
+    },
+    include: {
+      provider: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+        },
+      },
+      category: {
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+        },
+      },
+    },
+  });
+
+  const totalGearCount = await prisma.gearItem.count({
+    where: {
+      AND: andConditions,
+    },
+  });
+
+  return {
+    data: gearItems,
+    meta: {
+      page: pageNumber,
+      limit: limitNumber,
+      total: totalGearCount,
+      totalPages: Math.ceil(pageNumber / limitNumber),
+    },
+  };
+};
 
 const createGear = async (providerId: string, payload: ICreateGear) => {
   const {
@@ -140,7 +266,6 @@ const deleteGear = async (gearId: string, userId: string) => {
     throw new Error("Gear item not found.");
   }
 
-
   if (existingGear.providerId !== userId) {
     throw new Error(
       "Unauthorized: You do not have permission to delete this gear item.",
@@ -156,4 +281,5 @@ export const gearService = {
   createGear,
   updateGear,
   deleteGear,
+  getGearItem,
 };

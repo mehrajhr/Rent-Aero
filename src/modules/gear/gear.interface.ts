@@ -19,3 +19,15 @@ export interface IUpdateGear {
   specifications?: Record<string, any>;
   categoryId?: string;
 }
+
+export interface IGearFilterRequest {
+  searchTerm?: string;
+  category?: string;
+  brand?: string;
+  minPrice?: string | number;
+  maxPrice?: string | number;
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
+  page?: string | number;
+  limit?: string | number;
+}

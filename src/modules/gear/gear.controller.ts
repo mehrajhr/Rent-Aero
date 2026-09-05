@@ -4,6 +4,20 @@ import { gearService } from "./gearr.service";
 import { sendResponse } from "../../utils/sendResponse";
 import httpStatus from "http-status";
 
+const getGear = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const result = await gearService.getGearItem(req.query);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Data fetched successfully.",
+      meta: result.meta,
+      data: result.data,
+    });
+  },
+);
+
 const createGear = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const id = req.user?.id;
@@ -55,6 +69,7 @@ const deleteGear = catchAsync(
 );
 
 export const gearController = {
+  getGear,
   createGear,
   updateGear,
   deleteGear,
