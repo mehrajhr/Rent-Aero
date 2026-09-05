@@ -4,6 +4,19 @@ import { categoryService } from "./category.service";
 import { sendResponse } from "../../utils/sendResponse";
 import httpStatus from "http-status";
 
+const getAllCategories = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const result = await categoryService.getAllCategories();
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Categories fetched successfully.",
+      data: result,
+    });
+  },
+);
+
 const createCategory = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const payload = req.body;
@@ -26,4 +39,5 @@ const createCategory = catchAsync(
 
 export const categoryController = {
   createCategory,
+  getAllCategories,
 };
