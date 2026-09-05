@@ -127,6 +127,22 @@ const getGearItem = async (filters: IGearFilterRequest) => {
   };
 };
 
+const getSingleGearItem = async (id: string) => {
+  const gearItem = await prisma.gearItem.findUnique({
+    where: { id },
+    include: {
+      category: { select: { id: true, name: true, slug: true } },
+      provider: { select: { id: true, name: true, email: true } },
+    },
+  });
+
+  if (!gearItem) {
+    throw new Error("Gear item not found.");
+  }
+
+  return gearItem;
+};
+
 const createGear = async (providerId: string, payload: ICreateGear) => {
   const {
     name,
@@ -282,4 +298,5 @@ export const gearService = {
   updateGear,
   deleteGear,
   getGearItem,
+  getSingleGearItem
 };

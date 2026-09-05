@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 import { catchAsync } from "../../utils/catchAsync";
-import { gearService } from "./gearr.service";
+import { gearService } from "./gear.service";
 import { sendResponse } from "../../utils/sendResponse";
 import httpStatus from "http-status";
 
@@ -14,6 +14,21 @@ const getGear = catchAsync(
       message: "Data fetched successfully.",
       meta: result.meta,
       data: result.data,
+    });
+  },
+);
+
+const getSingleGear = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const gearId = req.params.id as string;
+
+    const result = await gearService.getSingleGearItem(gearId);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Gear item fetched successfully",
+      data: result,
     });
   },
 );
@@ -70,6 +85,7 @@ const deleteGear = catchAsync(
 
 export const gearController = {
   getGear,
+  getSingleGear,
   createGear,
   updateGear,
   deleteGear,
