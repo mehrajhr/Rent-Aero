@@ -24,6 +24,7 @@ export interface IGearFilterRequest {
   searchTerm?: string;
   category?: string;
   brand?: string;
+  isAvailable?: string | boolean;
   minPrice?: string | number;
   maxPrice?: string | number;
   sortBy?: string;

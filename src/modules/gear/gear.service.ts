@@ -13,6 +13,7 @@ const getGearItem = async (filters: IGearFilterRequest) => {
     brand,
     minPrice,
     maxPrice,
+    isAvailable,
     sortBy = "createdAt",
     sortOrder = "desc",
     page = 1,
@@ -80,6 +81,15 @@ const getGearItem = async (filters: IGearFilterRequest) => {
         ...(minPrice !== undefined && { gte: Number(minPrice) }),
         ...(maxPrice !== undefined && { lte: Number(maxPrice) }),
       },
+    });
+  }
+
+  if (isAvailable !== undefined) {
+    const availableBoolean =
+      typeof isAvailable === "string" ? isAvailable === "true" : isAvailable;
+
+    andConditions.push({
+      isAvailable: availableBoolean,
     });
   }
 
@@ -298,5 +308,5 @@ export const gearService = {
   updateGear,
   deleteGear,
   getGearItem,
-  getSingleGearItem
+  getSingleGearItem,
 };

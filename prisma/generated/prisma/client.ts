@@ -52,6 +52,16 @@ export type Category = Prisma.CategoryModel
  */
 export type GearItem = Prisma.GearItemModel
 /**
+ * Model RentalOrder
+ * 
+ */
+export type RentalOrder = Prisma.RentalOrderModel
+/**
+ * Model RentalItem
+ * 
+ */
+export type RentalItem = Prisma.RentalItemModel
+/**
  * Model User
  * 
  */
