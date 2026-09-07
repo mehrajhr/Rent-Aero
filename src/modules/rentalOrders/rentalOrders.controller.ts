@@ -3,7 +3,7 @@ import { catchAsync } from "../../utils/catchAsync";
 import { rentalOrdersService } from "./rentalOrders.service";
 import { sendResponse } from "../../utils/sendResponse";
 import httpStatus from "http-status";
-import { OrderStatus } from "../../../prisma/generated/prisma/enums";
+import { OrderStatus, Role } from "../../../prisma/generated/prisma/enums";
 
 const createRentalOrder = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -96,10 +96,32 @@ const updateOrderStatus = catchAsync(
   },
 );
 
+const getRentalOrderDetails = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id: orderId } = req.params;
+    const userId = req.user?.id as string;
+    const userRole = req.user?.role;
+
+    const order = await rentalOrdersService.rentalOrderDetails(
+      orderId as string,
+      userId,
+      userRole as Role,
+    );
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Order details fetched successfully.",
+      data: order,
+    });
+  },
+);
+
 export const rentalOrdersController = {
   createRentalOrder,
   getMyRentals,
   getProviderIncomingOrders,
   getAllRentalOrdersForAdmin,
   updateOrderStatus,
+  getRentalOrderDetails,
 };

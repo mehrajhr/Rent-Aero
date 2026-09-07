@@ -24,6 +24,12 @@ router.get(
 );
 
 router.get(
+  "/:id",
+  auth(Role.ADMIN, Role.CUSTOMER, Role.PROVIDER),
+  rentalOrdersController.getRentalOrderDetails,
+);
+
+router.get(
   "/all-rentals-orders",
   auth(Role.ADMIN),
   rentalOrdersController.getAllRentalOrdersForAdmin,

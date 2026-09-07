@@ -1,4 +1,4 @@
-import type { Prisma, Role } from "../../../prisma/generated/prisma/browser";
+import { Role, type Prisma } from "../../../prisma/generated/prisma/browser";
 import { OrderStatus } from "../../../prisma/generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
 import type { ICreateRentalPayload } from "./rentalOrders.interface";
@@ -295,11 +295,44 @@ const updateOrderStatus = async (
   throw new Error("You do not have permission to update this order.");
 };
 
+const rentalOrderDetails = async (
+  orderId: string,
+  userId: string,
+  userRole: Role,
+) => {
+  const order = await prisma.rentalOrder.findUnique({
+    where: { id: orderId },
+    include: {
+      customer: { select: { id: true, name: true, email: true } },
+      provider: { select: { id: true, name: true, email: true } },
+      items: {
+        include: {
+          gear: true,
+        },
+      },
+    },
+  });
+
+  if (!order) {
+    throw new Error("Order not found.");
+  }
+
+  if (
+    userRole !== Role.ADMIN &&
+    order.customerId !== userId &&
+    order.providerId !== userId
+  ) {
+    throw new Error("You do not have permission to view this order's details.");
+  }
+
+  return order;
+};
+
 export const rentalOrdersService = {
   createRentalOrders,
   getMyRentals,
   getProviderRentalOrders,
   getAllRentalOrdersForAdmin,
-  updateOrderStatus
+  updateOrderStatus,
+  rentalOrderDetails,
 };
-
