@@ -3,6 +3,7 @@ import { catchAsync } from "../../utils/catchAsync";
 import { rentalOrdersService } from "./rentalOrders.service";
 import { sendResponse } from "../../utils/sendResponse";
 import httpStatus from "http-status";
+import { OrderStatus } from "../../../prisma/generated/prisma/enums";
 
 const createRentalOrder = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -66,9 +67,39 @@ const getAllRentalOrdersForAdmin = catchAsync(
   },
 );
 
+const updateOrderStatus = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const orderId = req.params?.id;
+    const userId = req.user?.id;
+    const { status } = req.body;
+
+    if (!status) {
+      throw new Error("Status is required.");
+    }
+
+    if (!Object.values(OrderStatus).includes(status)) {
+      throw new Error("Invalid order status provided.");
+    }
+
+    const updatedOrder = await rentalOrdersService.updateOrderStatus(
+      orderId as string,
+      userId as string,
+      status,
+    );
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: `Order status successfully updated to ${status}`,
+      data: updatedOrder,
+    });
+  },
+);
+
 export const rentalOrdersController = {
   createRentalOrder,
   getMyRentals,
   getProviderIncomingOrders,
   getAllRentalOrdersForAdmin,
+  updateOrderStatus,
 };

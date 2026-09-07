@@ -1,4 +1,4 @@
-import type { Prisma } from "../../../prisma/generated/prisma/browser";
+import type { Prisma, Role } from "../../../prisma/generated/prisma/browser";
 import { OrderStatus } from "../../../prisma/generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
 import type { ICreateRentalPayload } from "./rentalOrders.interface";
@@ -243,9 +243,63 @@ const getAllRentalOrdersForAdmin = async () => {
   return rentalOrders;
 };
 
+const updateOrderStatus = async (
+  orderId: string,
+  userId: string,
+  newStatus: OrderStatus,
+) => {
+  const order = await prisma.rentalOrder.findUnique({
+    where: { id: orderId },
+  });
+
+  if (!order) {
+    throw new Error("Order not found.");
+  }
+
+  if (order.customerId === userId) {
+    if (newStatus !== OrderStatus.CANCELLED) {
+      throw new Error("Customers can only cancel their orders.");
+    }
+    if (order.status !== OrderStatus.PLACED) {
+      throw new Error(
+        "You can only cancel an order that is in 'PLACED' status.",
+      );
+    }
+
+    return await prisma.rentalOrder.update({
+      where: { id: orderId },
+      data: { status: newStatus },
+    });
+  }
+
+  if (order.providerId === userId) {
+    const allowedProviderStatuses = [
+      OrderStatus.CONFIRMED,
+      OrderStatus.CANCELLED,
+      OrderStatus.PICKED_UP,
+      OrderStatus.RETURNED,
+    ];
+
+    if (!allowedProviderStatuses.includes(newStatus as any)) {
+      throw new Error(
+        "You are not authorized to set this status as a provider.",
+      );
+    }
+
+    return await prisma.rentalOrder.update({
+      where: { id: orderId },
+      data: { status: newStatus },
+    });
+  }
+
+  throw new Error("You do not have permission to update this order.");
+};
+
 export const rentalOrdersService = {
   createRentalOrders,
   getMyRentals,
   getProviderRentalOrders,
-  getAllRentalOrdersForAdmin
+  getAllRentalOrdersForAdmin,
+  updateOrderStatus
 };
+

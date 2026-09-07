@@ -29,4 +29,10 @@ router.get(
   rentalOrdersController.getAllRentalOrdersForAdmin,
 );
 
+router.patch(
+  "/:id/status",
+  auth(Role.CUSTOMER, Role.ADMIN, Role.PROVIDER),
+  rentalOrdersController.updateOrderStatus,
+);
+
 export const rentalOrdersRoutes = router;
