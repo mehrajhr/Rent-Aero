@@ -1,7 +1,10 @@
 model RentalOrder {
     id         String @id @default(uuid())
     customerId String
-    customer   User   @relation(fields: [customerId], references: [id])
+    customer   User   @relation("CustomerOrders", fields: [customerId], references: [id])
+
+    providerId String
+    provider   User   @relation("ProviderOrders", fields: [providerId], references: [id])
 
     startDate   DateTime
     endDate     DateTime

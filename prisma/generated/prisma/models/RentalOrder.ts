@@ -37,6 +37,7 @@ export type RentalOrderSumAggregateOutputType = {
 export type RentalOrderMinAggregateOutputType = {
   id: string | null
   customerId: string | null
+  providerId: string | null
   startDate: Date | null
   endDate: Date | null
   totalAmount: number | null
@@ -48,6 +49,7 @@ export type RentalOrderMinAggregateOutputType = {
 export type RentalOrderMaxAggregateOutputType = {
   id: string | null
   customerId: string | null
+  providerId: string | null
   startDate: Date | null
   endDate: Date | null
   totalAmount: number | null
@@ -59,6 +61,7 @@ export type RentalOrderMaxAggregateOutputType = {
 export type RentalOrderCountAggregateOutputType = {
   id: number
   customerId: number
+  providerId: number
   startDate: number
   endDate: number
   totalAmount: number
@@ -80,6 +83,7 @@ export type RentalOrderSumAggregateInputType = {
 export type RentalOrderMinAggregateInputType = {
   id?: true
   customerId?: true
+  providerId?: true
   startDate?: true
   endDate?: true
   totalAmount?: true
@@ -91,6 +95,7 @@ export type RentalOrderMinAggregateInputType = {
 export type RentalOrderMaxAggregateInputType = {
   id?: true
   customerId?: true
+  providerId?: true
   startDate?: true
   endDate?: true
   totalAmount?: true
@@ -102,6 +107,7 @@ export type RentalOrderMaxAggregateInputType = {
 export type RentalOrderCountAggregateInputType = {
   id?: true
   customerId?: true
+  providerId?: true
   startDate?: true
   endDate?: true
   totalAmount?: true
@@ -200,6 +206,7 @@ export type RentalOrderGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 export type RentalOrderGroupByOutputType = {
   id: string
   customerId: string
+  providerId: string
   startDate: Date
   endDate: Date
   totalAmount: number
@@ -234,6 +241,7 @@ export type RentalOrderWhereInput = {
   NOT?: Prisma.RentalOrderWhereInput | Prisma.RentalOrderWhereInput[]
   id?: Prisma.StringFilter<"RentalOrder"> | string
   customerId?: Prisma.StringFilter<"RentalOrder"> | string
+  providerId?: Prisma.StringFilter<"RentalOrder"> | string
   startDate?: Prisma.DateTimeFilter<"RentalOrder"> | Date | string
   endDate?: Prisma.DateTimeFilter<"RentalOrder"> | Date | string
   totalAmount?: Prisma.FloatFilter<"RentalOrder"> | number
@@ -241,12 +249,14 @@ export type RentalOrderWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"RentalOrder"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"RentalOrder"> | Date | string
   customer?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  provider?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   items?: Prisma.RentalItemListRelationFilter
 }
 
 export type RentalOrderOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   customerId?: Prisma.SortOrder
+  providerId?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
@@ -254,6 +264,7 @@ export type RentalOrderOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   customer?: Prisma.UserOrderByWithRelationInput
+  provider?: Prisma.UserOrderByWithRelationInput
   items?: Prisma.RentalItemOrderByRelationAggregateInput
 }
 
@@ -263,6 +274,7 @@ export type RentalOrderWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.RentalOrderWhereInput[]
   NOT?: Prisma.RentalOrderWhereInput | Prisma.RentalOrderWhereInput[]
   customerId?: Prisma.StringFilter<"RentalOrder"> | string
+  providerId?: Prisma.StringFilter<"RentalOrder"> | string
   startDate?: Prisma.DateTimeFilter<"RentalOrder"> | Date | string
   endDate?: Prisma.DateTimeFilter<"RentalOrder"> | Date | string
   totalAmount?: Prisma.FloatFilter<"RentalOrder"> | number
@@ -270,12 +282,14 @@ export type RentalOrderWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"RentalOrder"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"RentalOrder"> | Date | string
   customer?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  provider?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   items?: Prisma.RentalItemListRelationFilter
 }, "id">
 
 export type RentalOrderOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   customerId?: Prisma.SortOrder
+  providerId?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
@@ -295,6 +309,7 @@ export type RentalOrderScalarWhereWithAggregatesInput = {
   NOT?: Prisma.RentalOrderScalarWhereWithAggregatesInput | Prisma.RentalOrderScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"RentalOrder"> | string
   customerId?: Prisma.StringWithAggregatesFilter<"RentalOrder"> | string
+  providerId?: Prisma.StringWithAggregatesFilter<"RentalOrder"> | string
   startDate?: Prisma.DateTimeWithAggregatesFilter<"RentalOrder"> | Date | string
   endDate?: Prisma.DateTimeWithAggregatesFilter<"RentalOrder"> | Date | string
   totalAmount?: Prisma.FloatWithAggregatesFilter<"RentalOrder"> | number
@@ -311,13 +326,15 @@ export type RentalOrderCreateInput = {
   status?: $Enums.OrderStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  customer: Prisma.UserCreateNestedOneWithoutRentalOrdersInput
+  customer: Prisma.UserCreateNestedOneWithoutCustomerOrdersInput
+  provider: Prisma.UserCreateNestedOneWithoutProviderOrdersInput
   items?: Prisma.RentalItemCreateNestedManyWithoutOrderInput
 }
 
 export type RentalOrderUncheckedCreateInput = {
   id?: string
   customerId: string
+  providerId: string
   startDate: Date | string
   endDate: Date | string
   totalAmount: number
@@ -335,13 +352,15 @@ export type RentalOrderUpdateInput = {
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  customer?: Prisma.UserUpdateOneRequiredWithoutRentalOrdersNestedInput
+  customer?: Prisma.UserUpdateOneRequiredWithoutCustomerOrdersNestedInput
+  provider?: Prisma.UserUpdateOneRequiredWithoutProviderOrdersNestedInput
   items?: Prisma.RentalItemUpdateManyWithoutOrderNestedInput
 }
 
 export type RentalOrderUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
+  providerId?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -354,6 +373,7 @@ export type RentalOrderUncheckedUpdateInput = {
 export type RentalOrderCreateManyInput = {
   id?: string
   customerId: string
+  providerId: string
   startDate: Date | string
   endDate: Date | string
   totalAmount: number
@@ -375,6 +395,7 @@ export type RentalOrderUpdateManyMutationInput = {
 export type RentalOrderUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
+  providerId?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -386,6 +407,7 @@ export type RentalOrderUncheckedUpdateManyInput = {
 export type RentalOrderCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   customerId?: Prisma.SortOrder
+  providerId?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
@@ -401,6 +423,7 @@ export type RentalOrderAvgOrderByAggregateInput = {
 export type RentalOrderMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   customerId?: Prisma.SortOrder
+  providerId?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
@@ -412,6 +435,7 @@ export type RentalOrderMaxOrderByAggregateInput = {
 export type RentalOrderMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   customerId?: Prisma.SortOrder
+  providerId?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
@@ -464,10 +488,24 @@ export type RentalOrderCreateNestedManyWithoutCustomerInput = {
   connect?: Prisma.RentalOrderWhereUniqueInput | Prisma.RentalOrderWhereUniqueInput[]
 }
 
+export type RentalOrderCreateNestedManyWithoutProviderInput = {
+  create?: Prisma.XOR<Prisma.RentalOrderCreateWithoutProviderInput, Prisma.RentalOrderUncheckedCreateWithoutProviderInput> | Prisma.RentalOrderCreateWithoutProviderInput[] | Prisma.RentalOrderUncheckedCreateWithoutProviderInput[]
+  connectOrCreate?: Prisma.RentalOrderCreateOrConnectWithoutProviderInput | Prisma.RentalOrderCreateOrConnectWithoutProviderInput[]
+  createMany?: Prisma.RentalOrderCreateManyProviderInputEnvelope
+  connect?: Prisma.RentalOrderWhereUniqueInput | Prisma.RentalOrderWhereUniqueInput[]
+}
+
 export type RentalOrderUncheckedCreateNestedManyWithoutCustomerInput = {
   create?: Prisma.XOR<Prisma.RentalOrderCreateWithoutCustomerInput, Prisma.RentalOrderUncheckedCreateWithoutCustomerInput> | Prisma.RentalOrderCreateWithoutCustomerInput[] | Prisma.RentalOrderUncheckedCreateWithoutCustomerInput[]
   connectOrCreate?: Prisma.RentalOrderCreateOrConnectWithoutCustomerInput | Prisma.RentalOrderCreateOrConnectWithoutCustomerInput[]
   createMany?: Prisma.RentalOrderCreateManyCustomerInputEnvelope
+  connect?: Prisma.RentalOrderWhereUniqueInput | Prisma.RentalOrderWhereUniqueInput[]
+}
+
+export type RentalOrderUncheckedCreateNestedManyWithoutProviderInput = {
+  create?: Prisma.XOR<Prisma.RentalOrderCreateWithoutProviderInput, Prisma.RentalOrderUncheckedCreateWithoutProviderInput> | Prisma.RentalOrderCreateWithoutProviderInput[] | Prisma.RentalOrderUncheckedCreateWithoutProviderInput[]
+  connectOrCreate?: Prisma.RentalOrderCreateOrConnectWithoutProviderInput | Prisma.RentalOrderCreateOrConnectWithoutProviderInput[]
+  createMany?: Prisma.RentalOrderCreateManyProviderInputEnvelope
   connect?: Prisma.RentalOrderWhereUniqueInput | Prisma.RentalOrderWhereUniqueInput[]
 }
 
@@ -485,6 +523,20 @@ export type RentalOrderUpdateManyWithoutCustomerNestedInput = {
   deleteMany?: Prisma.RentalOrderScalarWhereInput | Prisma.RentalOrderScalarWhereInput[]
 }
 
+export type RentalOrderUpdateManyWithoutProviderNestedInput = {
+  create?: Prisma.XOR<Prisma.RentalOrderCreateWithoutProviderInput, Prisma.RentalOrderUncheckedCreateWithoutProviderInput> | Prisma.RentalOrderCreateWithoutProviderInput[] | Prisma.RentalOrderUncheckedCreateWithoutProviderInput[]
+  connectOrCreate?: Prisma.RentalOrderCreateOrConnectWithoutProviderInput | Prisma.RentalOrderCreateOrConnectWithoutProviderInput[]
+  upsert?: Prisma.RentalOrderUpsertWithWhereUniqueWithoutProviderInput | Prisma.RentalOrderUpsertWithWhereUniqueWithoutProviderInput[]
+  createMany?: Prisma.RentalOrderCreateManyProviderInputEnvelope
+  set?: Prisma.RentalOrderWhereUniqueInput | Prisma.RentalOrderWhereUniqueInput[]
+  disconnect?: Prisma.RentalOrderWhereUniqueInput | Prisma.RentalOrderWhereUniqueInput[]
+  delete?: Prisma.RentalOrderWhereUniqueInput | Prisma.RentalOrderWhereUniqueInput[]
+  connect?: Prisma.RentalOrderWhereUniqueInput | Prisma.RentalOrderWhereUniqueInput[]
+  update?: Prisma.RentalOrderUpdateWithWhereUniqueWithoutProviderInput | Prisma.RentalOrderUpdateWithWhereUniqueWithoutProviderInput[]
+  updateMany?: Prisma.RentalOrderUpdateManyWithWhereWithoutProviderInput | Prisma.RentalOrderUpdateManyWithWhereWithoutProviderInput[]
+  deleteMany?: Prisma.RentalOrderScalarWhereInput | Prisma.RentalOrderScalarWhereInput[]
+}
+
 export type RentalOrderUncheckedUpdateManyWithoutCustomerNestedInput = {
   create?: Prisma.XOR<Prisma.RentalOrderCreateWithoutCustomerInput, Prisma.RentalOrderUncheckedCreateWithoutCustomerInput> | Prisma.RentalOrderCreateWithoutCustomerInput[] | Prisma.RentalOrderUncheckedCreateWithoutCustomerInput[]
   connectOrCreate?: Prisma.RentalOrderCreateOrConnectWithoutCustomerInput | Prisma.RentalOrderCreateOrConnectWithoutCustomerInput[]
@@ -499,6 +551,20 @@ export type RentalOrderUncheckedUpdateManyWithoutCustomerNestedInput = {
   deleteMany?: Prisma.RentalOrderScalarWhereInput | Prisma.RentalOrderScalarWhereInput[]
 }
 
+export type RentalOrderUncheckedUpdateManyWithoutProviderNestedInput = {
+  create?: Prisma.XOR<Prisma.RentalOrderCreateWithoutProviderInput, Prisma.RentalOrderUncheckedCreateWithoutProviderInput> | Prisma.RentalOrderCreateWithoutProviderInput[] | Prisma.RentalOrderUncheckedCreateWithoutProviderInput[]
+  connectOrCreate?: Prisma.RentalOrderCreateOrConnectWithoutProviderInput | Prisma.RentalOrderCreateOrConnectWithoutProviderInput[]
+  upsert?: Prisma.RentalOrderUpsertWithWhereUniqueWithoutProviderInput | Prisma.RentalOrderUpsertWithWhereUniqueWithoutProviderInput[]
+  createMany?: Prisma.RentalOrderCreateManyProviderInputEnvelope
+  set?: Prisma.RentalOrderWhereUniqueInput | Prisma.RentalOrderWhereUniqueInput[]
+  disconnect?: Prisma.RentalOrderWhereUniqueInput | Prisma.RentalOrderWhereUniqueInput[]
+  delete?: Prisma.RentalOrderWhereUniqueInput | Prisma.RentalOrderWhereUniqueInput[]
+  connect?: Prisma.RentalOrderWhereUniqueInput | Prisma.RentalOrderWhereUniqueInput[]
+  update?: Prisma.RentalOrderUpdateWithWhereUniqueWithoutProviderInput | Prisma.RentalOrderUpdateWithWhereUniqueWithoutProviderInput[]
+  updateMany?: Prisma.RentalOrderUpdateManyWithWhereWithoutProviderInput | Prisma.RentalOrderUpdateManyWithWhereWithoutProviderInput[]
+  deleteMany?: Prisma.RentalOrderScalarWhereInput | Prisma.RentalOrderScalarWhereInput[]
+}
+
 export type RentalOrderCreateWithoutItemsInput = {
   id?: string
   startDate: Date | string
@@ -507,12 +573,14 @@ export type RentalOrderCreateWithoutItemsInput = {
   status?: $Enums.OrderStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  customer: Prisma.UserCreateNestedOneWithoutRentalOrdersInput
+  customer: Prisma.UserCreateNestedOneWithoutCustomerOrdersInput
+  provider: Prisma.UserCreateNestedOneWithoutProviderOrdersInput
 }
 
 export type RentalOrderUncheckedCreateWithoutItemsInput = {
   id?: string
   customerId: string
+  providerId: string
   startDate: Date | string
   endDate: Date | string
   totalAmount: number
@@ -545,12 +613,14 @@ export type RentalOrderUpdateWithoutItemsInput = {
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  customer?: Prisma.UserUpdateOneRequiredWithoutRentalOrdersNestedInput
+  customer?: Prisma.UserUpdateOneRequiredWithoutCustomerOrdersNestedInput
+  provider?: Prisma.UserUpdateOneRequiredWithoutProviderOrdersNestedInput
 }
 
 export type RentalOrderUncheckedUpdateWithoutItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
+  providerId?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -567,11 +637,13 @@ export type RentalOrderCreateWithoutCustomerInput = {
   status?: $Enums.OrderStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  provider: Prisma.UserCreateNestedOneWithoutProviderOrdersInput
   items?: Prisma.RentalItemCreateNestedManyWithoutOrderInput
 }
 
 export type RentalOrderUncheckedCreateWithoutCustomerInput = {
   id?: string
+  providerId: string
   startDate: Date | string
   endDate: Date | string
   totalAmount: number
@@ -588,6 +660,40 @@ export type RentalOrderCreateOrConnectWithoutCustomerInput = {
 
 export type RentalOrderCreateManyCustomerInputEnvelope = {
   data: Prisma.RentalOrderCreateManyCustomerInput | Prisma.RentalOrderCreateManyCustomerInput[]
+  skipDuplicates?: boolean
+}
+
+export type RentalOrderCreateWithoutProviderInput = {
+  id?: string
+  startDate: Date | string
+  endDate: Date | string
+  totalAmount: number
+  status?: $Enums.OrderStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  customer: Prisma.UserCreateNestedOneWithoutCustomerOrdersInput
+  items?: Prisma.RentalItemCreateNestedManyWithoutOrderInput
+}
+
+export type RentalOrderUncheckedCreateWithoutProviderInput = {
+  id?: string
+  customerId: string
+  startDate: Date | string
+  endDate: Date | string
+  totalAmount: number
+  status?: $Enums.OrderStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  items?: Prisma.RentalItemUncheckedCreateNestedManyWithoutOrderInput
+}
+
+export type RentalOrderCreateOrConnectWithoutProviderInput = {
+  where: Prisma.RentalOrderWhereUniqueInput
+  create: Prisma.XOR<Prisma.RentalOrderCreateWithoutProviderInput, Prisma.RentalOrderUncheckedCreateWithoutProviderInput>
+}
+
+export type RentalOrderCreateManyProviderInputEnvelope = {
+  data: Prisma.RentalOrderCreateManyProviderInput | Prisma.RentalOrderCreateManyProviderInput[]
   skipDuplicates?: boolean
 }
 
@@ -613,6 +719,7 @@ export type RentalOrderScalarWhereInput = {
   NOT?: Prisma.RentalOrderScalarWhereInput | Prisma.RentalOrderScalarWhereInput[]
   id?: Prisma.StringFilter<"RentalOrder"> | string
   customerId?: Prisma.StringFilter<"RentalOrder"> | string
+  providerId?: Prisma.StringFilter<"RentalOrder"> | string
   startDate?: Prisma.DateTimeFilter<"RentalOrder"> | Date | string
   endDate?: Prisma.DateTimeFilter<"RentalOrder"> | Date | string
   totalAmount?: Prisma.FloatFilter<"RentalOrder"> | number
@@ -621,8 +728,36 @@ export type RentalOrderScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"RentalOrder"> | Date | string
 }
 
+export type RentalOrderUpsertWithWhereUniqueWithoutProviderInput = {
+  where: Prisma.RentalOrderWhereUniqueInput
+  update: Prisma.XOR<Prisma.RentalOrderUpdateWithoutProviderInput, Prisma.RentalOrderUncheckedUpdateWithoutProviderInput>
+  create: Prisma.XOR<Prisma.RentalOrderCreateWithoutProviderInput, Prisma.RentalOrderUncheckedCreateWithoutProviderInput>
+}
+
+export type RentalOrderUpdateWithWhereUniqueWithoutProviderInput = {
+  where: Prisma.RentalOrderWhereUniqueInput
+  data: Prisma.XOR<Prisma.RentalOrderUpdateWithoutProviderInput, Prisma.RentalOrderUncheckedUpdateWithoutProviderInput>
+}
+
+export type RentalOrderUpdateManyWithWhereWithoutProviderInput = {
+  where: Prisma.RentalOrderScalarWhereInput
+  data: Prisma.XOR<Prisma.RentalOrderUpdateManyMutationInput, Prisma.RentalOrderUncheckedUpdateManyWithoutProviderInput>
+}
+
 export type RentalOrderCreateManyCustomerInput = {
   id?: string
+  providerId: string
+  startDate: Date | string
+  endDate: Date | string
+  totalAmount: number
+  status?: $Enums.OrderStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type RentalOrderCreateManyProviderInput = {
+  id?: string
+  customerId: string
   startDate: Date | string
   endDate: Date | string
   totalAmount: number
@@ -639,11 +774,13 @@ export type RentalOrderUpdateWithoutCustomerInput = {
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  provider?: Prisma.UserUpdateOneRequiredWithoutProviderOrdersNestedInput
   items?: Prisma.RentalItemUpdateManyWithoutOrderNestedInput
 }
 
 export type RentalOrderUncheckedUpdateWithoutCustomerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  providerId?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -655,6 +792,42 @@ export type RentalOrderUncheckedUpdateWithoutCustomerInput = {
 
 export type RentalOrderUncheckedUpdateManyWithoutCustomerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  providerId?: Prisma.StringFieldUpdateOperationsInput | string
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  totalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type RentalOrderUpdateWithoutProviderInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  totalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  customer?: Prisma.UserUpdateOneRequiredWithoutCustomerOrdersNestedInput
+  items?: Prisma.RentalItemUpdateManyWithoutOrderNestedInput
+}
+
+export type RentalOrderUncheckedUpdateWithoutProviderInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  totalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  items?: Prisma.RentalItemUncheckedUpdateManyWithoutOrderNestedInput
+}
+
+export type RentalOrderUncheckedUpdateManyWithoutProviderInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -697,6 +870,7 @@ export type RentalOrderCountOutputTypeCountItemsArgs<ExtArgs extends runtime.Typ
 export type RentalOrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   customerId?: boolean
+  providerId?: boolean
   startDate?: boolean
   endDate?: boolean
   totalAmount?: boolean
@@ -704,6 +878,7 @@ export type RentalOrderSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   createdAt?: boolean
   updatedAt?: boolean
   customer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  provider?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   items?: boolean | Prisma.RentalOrder$itemsArgs<ExtArgs>
   _count?: boolean | Prisma.RentalOrderCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["rentalOrder"]>
@@ -711,6 +886,7 @@ export type RentalOrderSelect<ExtArgs extends runtime.Types.Extensions.InternalA
 export type RentalOrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   customerId?: boolean
+  providerId?: boolean
   startDate?: boolean
   endDate?: boolean
   totalAmount?: boolean
@@ -718,11 +894,13 @@ export type RentalOrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   createdAt?: boolean
   updatedAt?: boolean
   customer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  provider?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["rentalOrder"]>
 
 export type RentalOrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   customerId?: boolean
+  providerId?: boolean
   startDate?: boolean
   endDate?: boolean
   totalAmount?: boolean
@@ -730,11 +908,13 @@ export type RentalOrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   createdAt?: boolean
   updatedAt?: boolean
   customer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  provider?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["rentalOrder"]>
 
 export type RentalOrderSelectScalar = {
   id?: boolean
   customerId?: boolean
+  providerId?: boolean
   startDate?: boolean
   endDate?: boolean
   totalAmount?: boolean
@@ -743,28 +923,33 @@ export type RentalOrderSelectScalar = {
   updatedAt?: boolean
 }
 
-export type RentalOrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "customerId" | "startDate" | "endDate" | "totalAmount" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["rentalOrder"]>
+export type RentalOrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "customerId" | "providerId" | "startDate" | "endDate" | "totalAmount" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["rentalOrder"]>
 export type RentalOrderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  provider?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   items?: boolean | Prisma.RentalOrder$itemsArgs<ExtArgs>
   _count?: boolean | Prisma.RentalOrderCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type RentalOrderIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  provider?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type RentalOrderIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  provider?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $RentalOrderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "RentalOrder"
   objects: {
     customer: Prisma.$UserPayload<ExtArgs>
+    provider: Prisma.$UserPayload<ExtArgs>
     items: Prisma.$RentalItemPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     customerId: string
+    providerId: string
     startDate: Date
     endDate: Date
     totalAmount: number
@@ -1166,6 +1351,7 @@ readonly fields: RentalOrderFieldRefs;
 export interface Prisma__RentalOrderClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   customer<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  provider<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   items<T extends Prisma.RentalOrder$itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RentalOrder$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RentalItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1198,6 +1384,7 @@ export interface Prisma__RentalOrderClient<T, Null = never, ExtArgs extends runt
 export interface RentalOrderFieldRefs {
   readonly id: Prisma.FieldRef<"RentalOrder", 'String'>
   readonly customerId: Prisma.FieldRef<"RentalOrder", 'String'>
+  readonly providerId: Prisma.FieldRef<"RentalOrder", 'String'>
   readonly startDate: Prisma.FieldRef<"RentalOrder", 'DateTime'>
   readonly endDate: Prisma.FieldRef<"RentalOrder", 'DateTime'>
   readonly totalAmount: Prisma.FieldRef<"RentalOrder", 'Float'>

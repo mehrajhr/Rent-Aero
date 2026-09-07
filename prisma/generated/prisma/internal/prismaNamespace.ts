@@ -863,6 +863,7 @@ export type GearItemScalarFieldEnum = (typeof GearItemScalarFieldEnum)[keyof typ
 export const RentalOrderScalarFieldEnum = {
   id: 'id',
   customerId: 'customerId',
+  providerId: 'providerId',
   startDate: 'startDate',
   endDate: 'endDate',
   totalAmount: 'totalAmount',

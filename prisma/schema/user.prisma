@@ -9,7 +9,8 @@ model User {
   updatedAt    DateTime      @updatedAt
 
   gearItems GearItem[]
-  rentalOrders RentalOrder[]
+  customerOrders RentalOrder[] @relation("CustomerOrders")
+  providerOrders RentalOrder[] @relation("ProviderOrders")
 
   @@map("users")
 }
