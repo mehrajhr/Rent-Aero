@@ -53,8 +53,22 @@ const getProviderIncomingOrders = catchAsync(
   },
 );
 
+const getAllRentalOrdersForAdmin = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const orders = await rentalOrdersService.getAllRentalOrdersForAdmin();
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Rentals and Orders fetched successfully",
+      data: orders,
+    });
+  },
+);
+
 export const rentalOrdersController = {
   createRentalOrder,
   getMyRentals,
   getProviderIncomingOrders,
+  getAllRentalOrdersForAdmin,
 };

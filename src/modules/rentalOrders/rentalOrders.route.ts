@@ -23,4 +23,10 @@ router.get(
   rentalOrdersController.getProviderIncomingOrders,
 );
 
+router.get(
+  "/all-rentals-orders",
+  auth(Role.ADMIN),
+  rentalOrdersController.getAllRentalOrdersForAdmin,
+);
+
 export const rentalOrdersRoutes = router;
