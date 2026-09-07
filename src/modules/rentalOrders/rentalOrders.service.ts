@@ -154,6 +154,63 @@ const createRentalOrders = async (
   return result;
 };
 
+const getMyRentals = async (customerId: string) => {
+  const rentals = await prisma.rentalOrder.findMany({
+    where: {
+      customerId,
+    },
+    include: {
+      provider: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+        },
+      },
+      items: {
+        include: {
+          gear: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  return rentals;
+};
+
+const getProviderRentalOrders = async (providerId: string) => {
+  const orders = await prisma.rentalOrder.findMany({
+    where: {
+      providerId,
+    },
+    include: {
+      customer: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+        },
+      },
+      items: {
+        include: {
+          gear: true,
+        },
+      },
+    },
+
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  return orders;
+};
+
 export const rentalOrdersService = {
   createRentalOrders,
+  getMyRentals,
+  getProviderRentalOrders,
 };

@@ -23,6 +23,38 @@ const createRentalOrder = catchAsync(
   },
 );
 
+const getMyRentals = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const cutomerId = req.user?.id as string;
+
+    const rentals = await rentalOrdersService.getMyRentals(cutomerId);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Rentals fetched successfully",
+      data: rentals,
+    });
+  },
+);
+
+const getProviderIncomingOrders = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const providerId = req.user?.id as string;
+    const orders =
+      await rentalOrdersService.getProviderRentalOrders(providerId);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Orders fetched successfully",
+      data: orders,
+    });
+  },
+);
+
 export const rentalOrdersController = {
   createRentalOrder,
+  getMyRentals,
+  getProviderIncomingOrders,
 };
