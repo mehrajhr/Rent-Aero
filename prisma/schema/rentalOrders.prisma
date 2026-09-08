@@ -11,7 +11,8 @@ model RentalOrder {
     totalAmount Float
     status      OrderStatus @default(PLACED)
 
-    items RentalItem[]
+    items   RentalItem[]
+    payment Payment?
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
