@@ -1,20 +1,20 @@
 model User {
-  id           String        @id @default(uuid())
-  name         String
-  email        String        @unique
-  password     String
-  role         Role          @default(CUSTOMER)
-  status       UserStatus    @default(ACTIVE)
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  id        String     @id @default(uuid())
+  name      String
+  email     String     @unique
+  password  String
+  role      Role       @default(CUSTOMER)
+  status    UserStatus @default(ACTIVE)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 
-  gearItems GearItem[]
+  gearItems      GearItem[]
+  reviews        Review[]
   customerOrders RentalOrder[] @relation("CustomerOrders")
   providerOrders RentalOrder[] @relation("ProviderOrders")
 
   @@map("users")
 }
-
 
 enum Role {
   CUSTOMER

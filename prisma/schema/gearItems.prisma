@@ -18,6 +18,7 @@ model GearItem {
     updatedAt DateTime @updatedAt
 
     orderItems RentalItem[]
+    reviews    Review[]
 
     @@map("gear_items")
 }

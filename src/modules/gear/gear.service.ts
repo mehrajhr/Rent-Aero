@@ -117,6 +117,21 @@ const getGearItem = async (filters: IGearFilterRequest) => {
           slug: true,
         },
       },
+
+      reviews: {
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      },
     },
   });
 
@@ -126,13 +141,26 @@ const getGearItem = async (filters: IGearFilterRequest) => {
     },
   });
 
+  const processedGearItems = gearItems.map((gear) => {
+    const totalReviews = gear.reviews.length;
+    const averageRating =
+      totalReviews > 0
+        ? gear.reviews.reduce((acc, rev) => acc + rev.rating!, 0) / totalReviews
+        : 0;
+    return {
+      ...gear,
+      averageRating: Number(averageRating.toFixed(1)), // যেমন: 4.5
+      totalReviews,
+    };
+  });
+
   return {
-    data: gearItems,
+    data: processedGearItems,
     meta: {
       page: pageNumber,
       limit: limitNumber,
       total: totalGearCount,
-      totalPages: Math.ceil(pageNumber / limitNumber),
+      totalPages: Math.ceil(totalGearCount / limitNumber),
     },
   };
 };
@@ -143,14 +171,31 @@ const getSingleGearItem = async (id: string) => {
     include: {
       category: { select: { id: true, name: true, slug: true } },
       provider: { select: { id: true, name: true, email: true } },
+      reviews: {
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+            },
+          },
+        },
+      },
     },
   });
 
   if (!gearItem) {
     throw new Error("Gear item not found.");
   }
+  const totalReviews = gearItem.reviews.length;
+  const averageRating =
+    totalReviews > 0
+      ? gearItem.reviews.reduce((acc, rev) => acc + rev.rating!, 0) /
+        totalReviews
+      : 0;
 
-  return gearItem;
+  return { ...gearItem, totalReviews, averageRating };
 };
 
 const createGear = async (providerId: string, payload: ICreateGear) => {

@@ -12,6 +12,7 @@ model RentalOrder {
     status      OrderStatus @default(PLACED)
 
     items   RentalItem[]
+    reviews Review[]
     payment Payment?
 
     createdAt DateTime @default(now())
