@@ -132,7 +132,50 @@ const handleWebhook = async (signature: string, payload: Buffer) => {
   };
 };
 
+const getPaymentHistory = async (customerId: string) => {
+  const payments = await prisma.payment.findMany({
+    where: { customerId },
+    include: {
+      order: {
+        include: {
+          provider: { select: { id: true, name: true, email: true } },
+          items: { include: { gear: true } },
+        },
+      },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+
+  return payments;
+};
+
+const getPaymentDetails = async (paymentId: string, userId: string) => {
+  const payment = await prisma.payment.findUnique({
+    where: { id: paymentId },
+    include: {
+      order: {
+        include: {
+          provider: { select: { id: true, name: true, email: true } },
+          items: { include: { gear: true } },
+        },
+      },
+    },
+  });
+
+  if (!payment) {
+    throw new Error("Payment record not found.");
+  }
+
+  if (payment.customerId !== userId) {
+    throw new Error("You do not have permission to view this payment detail.");
+  }
+
+  return payment;
+};
+
 export const paymentService = {
   createCheckoutSession,
-  handleWebhook
+  handleWebhook,
+  getPaymentHistory,
+  getPaymentDetails,
 };

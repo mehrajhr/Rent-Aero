@@ -13,4 +13,15 @@ router.post(
 
 router.post("/webhook", paymentsController.handleWebHook);
 
+router.get(
+  "/",
+  auth(Role.ADMIN, Role.CUSTOMER, Role.CUSTOMER),
+  paymentsController.getPaymentHistory,
+);
+router.get(
+  "/:id",
+  auth(Role.ADMIN, Role.CUSTOMER, Role.PROVIDER),
+  paymentsController.getPaymentDetails,
+);
+
 export const paymentsRoute = router;

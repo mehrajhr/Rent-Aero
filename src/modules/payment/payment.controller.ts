@@ -40,7 +40,45 @@ const handleWebHook = catchAsync(
   },
 );
 
+const getPaymentHistory = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const customerId = req.user?.id;
+
+    const result = await paymentService.getPaymentHistory(customerId as string);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Payment history fetched successfully",
+      data: result,
+    });
+  },
+);
+
+const getPaymentDetails = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.user?.id;
+    const paymentId = req.params?.id;
+
+    const result = await paymentService.getPaymentDetails(
+      paymentId as string,
+      userId as string,
+    );
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Payment details fetched successfully.",
+      data: {
+        payment: result,
+      },
+    });
+  },
+);
+
 export const paymentsController = {
   createCheckoutSession,
   handleWebHook,
+  getPaymentHistory,
+  getPaymentDetails,
 };
