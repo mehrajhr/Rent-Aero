@@ -13,6 +13,8 @@ import { gearRoutes } from "./modules/gear/gear.route";
 import { rentalOrdersRoutes } from "./modules/rentalOrders/rentalOrders.route";
 import { paymentsRoute } from "./modules/payment/payment.route";
 import { reviewRoutes } from "./modules/review/review.route";
+import { notFound } from "./middlewares/notFound";
+import { globalErrorHandler } from "./middlewares/globalErrorHandler";
 
 const app: Application = express();
 
@@ -40,5 +42,8 @@ app.use("/api/gear", gearRoutes);
 app.use("/api/rentals", rentalOrdersRoutes);
 app.use("/api/payments", paymentsRoute);
 app.use("/api/reviews", reviewRoutes);
+
+app.use(notFound);
+app.use(globalErrorHandler);
 
 export default app;
