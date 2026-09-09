@@ -5,3 +5,10 @@ export interface ICreateReview {
   rating: number;
   comment?: string;
 }
+
+export interface IUpdateReviewPayload {
+  reviewId: string;
+  userId: string;
+  rating?: number;
+  comment?: string;
+}

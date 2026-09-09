@@ -11,4 +11,10 @@ router.post(
   reviewController.createReview,
 );
 
+router.patch(
+  "/:id",
+  auth(Role.ADMIN, Role.CUSTOMER, Role.PROVIDER),
+  reviewController.updateReview,
+);
+
 export const reviewRoutes = router;

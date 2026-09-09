@@ -1,6 +1,6 @@
 import { OrderStatus } from "../../../prisma/generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
-import type { ICreateReview } from "./review.interface";
+import type { ICreateReview, IUpdateReviewPayload } from "./review.interface";
 
 const createReview = async (payload: ICreateReview) => {
   const { userId, gearId, orderId, comment, rating } = payload;
@@ -70,6 +70,41 @@ const createReview = async (payload: ICreateReview) => {
   return review;
 };
 
+const updateReview = async (payload: IUpdateReviewPayload) => {
+  const { reviewId, userId, rating, comment } = payload;
+
+  const review = await prisma.review.findUnique({
+    where: { id: reviewId },
+  });
+
+  if (!review) {
+    throw new Error("Review not found.");
+  }
+
+  if (review.userId !== userId) {
+    throw new Error("You do not have permission to update this review.");
+  }
+
+  const updatedReview = await prisma.review.update({
+    where: { id: reviewId },
+    data: {
+      rating,
+      comment,
+    },
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
+  });
+
+  return updatedReview;
+};
+
 export const reviewService = {
   createReview,
+  updateReview,
 };
