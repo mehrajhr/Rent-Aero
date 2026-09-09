@@ -1,3 +1,4 @@
+import type Stripe from "stripe";
 import {
   OrderStatus,
   PaymentStatus,
@@ -77,6 +78,61 @@ const createCheckoutSession = async (orderId: string, customerId: string) => {
   return { checkoutUrl: session.url };
 };
 
+const handleWebhook = async (signature: string, payload: Buffer) => {
+  const webhookSecret = config.stripe_webhook_secret as string;
+  let event: Stripe.Event;
+
+  try {
+    event = stripe.webhooks.constructEvent(payload, signature, webhookSecret);
+  } catch (error: any) {
+    throw new Error(`Webhook Signature Verification Failed: ${error.message}`);
+  }
+
+  if (event.type === "checkout.session.completed") {
+    const session = event.data.object as Stripe.Checkout.Session;
+
+    const orderId = session.metadata?.orderId;
+    const paymentIntentId = session.payment_intent as string;
+    const customerEmaill = session.customer_details?.email;
+
+    if (!orderId) {
+      throw new Error("Order ID not found in session metadata.");
+    }
+
+    await prisma.$transaction(async (tx) => {
+      const updatedPayment = await tx.payment.update({
+        where: {
+          orderId,
+        },
+        data: {
+          status: PaymentStatus.PAID,
+          stripePaymentIntentId: paymentIntentId,
+          receiptUrl: session.url,
+        },
+      });
+
+      await tx.rentalOrder.update({
+        where: {
+          id: orderId,
+        },
+        data: {
+          status: OrderStatus.PAID,
+        },
+      });
+    });
+
+    return {
+      received: true,
+      orderId,
+    };
+  }
+  return {
+    received: true,
+    eventThpe: event.type,
+  };
+};
+
 export const paymentService = {
   createCheckoutSession,
+  handleWebhook
 };

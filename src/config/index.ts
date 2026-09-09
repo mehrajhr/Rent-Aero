@@ -13,4 +13,5 @@ export default {
   jwt_access_expiresin: process.env.JWT_ACCESS_EXPIRESIN,
   jwt_refresh_expiresin: process.env.JWT_REFRESH_EXPIRESIN,
   stripe_secret_key: process.env.STRIPE_SCERET_KEY,
+  stripe_webhook_secret: process.env.STRIPE_WEBHOOK_SECRET,
 };
