@@ -1,18 +1,20 @@
 # RentAero - A Role-Agnostic Rental Management Platform
 
+"Rent Sports & Outdoor Gear Instantly"
+
 RentAero is a robust, scalable, and fully role-agnostic rental management platform designed to allow users to seamlessly rent, manage, and review gear. Built with modern backend technologies, it features a standardized RESTful API architecture, secure payment integration, and comprehensive data handling.
 
 ---
 
 ## 🚀 Key Features
 
-* **Role-Agnostic User System**: Flexible architecture where any registered user can act as a customer, provider, or administrator to manage and rent gear.
-* **Advanced Gear Filtering & Search**: Robust query filtering, search capabilities, category organization, and price filtering for seamless gear discovery.
-* **Secure Authentication & Management**: JWT-based authentication featuring user registration, secure login, token refreshing, and full profile management alongside admin controls for user status.
-* **Rental Orders Management**: End-to-end order lifecycle handling, tracking customer rentals, order details, and administrative overview of all platform transactions.
-* **Stripe Payment Integration**: Secure checkout session generation and dedicated payment history and details tracking.
-* **Strict Review & Validation System**: Comprehensive review mechanisms with composite unique constraints to prevent duplicates, restricted strictly to orders marked with a `RETURNED` status.
-* **Standardized REST API**: Consistent success and error response formats across all modules for predictable client integration.
+* **Role-Based User Management**: Support for **Customer**, **Provider**, and **Admin** roles selected during registration.
+* **Public Discovery**: Browse all available sports & outdoor gear with advanced search and filters (category, price, brand, and availability).
+* **Rental Lifecycle**: End-to-end rental order processing from placement to confirmation, pick-up, and return.
+* **Flexible Payments**: Secure payment processing via **Stripe** or **SSLCommerz** during order placement and confirmation.
+* **Provider Inventory Control**: Full CRUD capabilities for providers to manage gear inventory, stock, and incoming orders.
+* **Strict Review System**: Customers can leave reviews and ratings for gear items strictly after the equipment is returned.
+* **Admin Moderation**: Comprehensive administrative tools to manage user statuses (suspend/activate), monitor all gear listings, and oversee platform rentals and categories.
 
 ---
 
@@ -26,6 +28,16 @@ RentAero is a robust, scalable, and fully role-agnostic rental management platfo
 
 ---
 
+## 📊 Rental Order Status Flow
+
+1. **`PLACED`**: Order is created by the customer.
+2. **`CONFIRMED` / `CANCELLED`**: Provider confirms the order or customer cancels it.
+3. **`PAID`**: Payment successfully processed via Stripe or SSLCommerz.
+4. **`PICKED_UP`**: Customer picks up the gear.
+5. **`RETURNED`**: Gear is returned (enables review creation).
+
+---
+
 ## ⚙️ Setup & Installation Guide
 
 Follow these steps to set up and run the project locally on your machine.
@@ -33,6 +45,7 @@ Follow these steps to set up and run the project locally on your machine.
 ### 1. Clone the Repository
 ```bash
 git clone [https://github.com/mehrajhr/Rent-Aero.git]
+cd Rent-Aero
 ```
 
 ### 2. Install Dependencies
