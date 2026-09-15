@@ -20,7 +20,7 @@ RentAero is a robust, scalable, and fully role-agnostic rental management platfo
 
 * **Runtime**: Node.js & TypeScript
 * **Framework**: Express.js
-* **Database & ORM**: MongoDB / Prisma (or Mongoose)
+* **Database & ORM**: Postgres / Prisma 
 * **Payment Gateway**: Stripe API
 * **Deployment**: Vercel Serverless
 
