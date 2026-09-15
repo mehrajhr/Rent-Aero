@@ -13,10 +13,30 @@
         {
           "name": "registration",
           "request": {
-            "method": "GET",
+            "method": "POST",
             "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Mehraj Provider\",\r\n    \"email\" : \"mehraj@gmail.com\",\r\n    \"password\" : \"mehraj1234\",\r\n    \"role\" : \"PROVIDER\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
-              "raw": ""
+              "raw": "https://rent-aero.vercel.app/api/auth/register",
+              "protocol": "https",
+              "host": [
+                "rent-aero",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
             }
           },
           "response": []
@@ -24,10 +44,30 @@
         {
           "name": "login",
           "request": {
-            "method": "GET",
+            "method": "POST",
             "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\" : \"customer@gmail.com\",\r\n    \"password\" : \"mehraj1234\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
-              "raw": ""
+              "raw": "https://rent-aero.vercel.app/api/auth/login",
+              "protocol": "https",
+              "host": [
+                "rent-aero",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
             }
           },
           "response": []
@@ -35,10 +75,21 @@
         {
           "name": "refresh token",
           "request": {
-            "method": "GET",
+            "method": "POST",
             "header": [],
             "url": {
-              "raw": ""
+              "raw": "https://rent-aero.vercel.app/api/auth/refresh-token",
+              "protocol": "https",
+              "host": [
+                "rent-aero",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "refresh-token"
+              ]
             }
           },
           "response": []
@@ -49,7 +100,18 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": ""
+              "raw": "https://rent-aero.vercel.app/api/auth/me",
+              "protocol": "https",
+              "host": [
+                "rent-aero",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "me"
+              ]
             }
           },
           "response": []
@@ -57,10 +119,31 @@
         {
           "name": "update my profile",
           "request": {
-            "method": "GET",
+            "method": "PATCH",
             "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\" : \"Fahad\",\r\n    \"email\" : \"fahad@gmail.com\",\r\n    \"role\" : \"PROVIDER\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
-              "raw": ""
+              "raw": "https://rent-aero.vercel.app/api/auth/me/update",
+              "protocol": "https",
+              "host": [
+                "rent-aero",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "me",
+                "update"
+              ]
             }
           },
           "response": []
@@ -76,7 +159,18 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": ""
+              "raw": "https://rent-aero.vercel.app/api/admin/users",
+              "protocol": "https",
+              "host": [
+                "rent-aero",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "users"
+              ]
             }
           },
           "response": []
@@ -84,10 +178,31 @@
         {
           "name": "update user status",
           "request": {
-            "method": "GET",
+            "method": "PATCH",
             "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"status\": \"ACTIVE\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
-              "raw": ""
+              "raw": "https://rent-aero.vercel.app/api/admin/users/7e326f14-b8b4-488d-90c5-4417f2cbe790",
+              "protocol": "https",
+              "host": [
+                "rent-aero",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "users",
+                "7e326f14-b8b4-488d-90c5-4417f2cbe790"
+              ]
             }
           },
           "response": []
@@ -100,10 +215,29 @@
         {
           "name": "create category",
           "request": {
-            "method": "GET",
+            "method": "POST",
             "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\" : \"Tools & Equipment\",\r\n    \"slug\": \"tools-equipment\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
-              "raw": ""
+              "raw": "https://rent-aero.vercel.app/api/categories",
+              "protocol": "https",
+              "host": [
+                "rent-aero",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "categories"
+              ]
             }
           },
           "response": []
@@ -114,7 +248,17 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": ""
+              "raw": "https://rent-aero.vercel.app/api/categories",
+              "protocol": "https",
+              "host": [
+                "rent-aero",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "categories"
+              ]
             }
           },
           "response": []
@@ -122,10 +266,30 @@
         {
           "name": "update category",
           "request": {
-            "method": "GET",
+            "method": "PATCH",
             "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\" : \"Water Sports\",\r\n    \"slug\" : \"water-sports\",\r\n    \"isActive\" : false\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
-              "raw": ""
+              "raw": "https://rent-aero.vercel.app/api/categories/a4ab49e0-769a-43b6-b243-109b2a9eec49",
+              "protocol": "https",
+              "host": [
+                "rent-aero",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "categories",
+                "a4ab49e0-769a-43b6-b243-109b2a9eec49"
+              ]
             }
           },
           "response": []
@@ -138,10 +302,29 @@
         {
           "name": "create gear",
           "request": {
-            "method": "GET",
+            "method": "POST",
             "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Sony Alpha a7 IV Mirrorless Camera\",\r\n    \"description\": \"Full-frame mirrorless camera delivering stunning 4K video and high-resolution photography. Ideal for creators and pros.\",\r\n    \"brand\": \"Sony\",\r\n    \"pricePerDay\": 65.0,\r\n    \"stock\": 2,\r\n    \"isAvailable\": true,\r\n    \"specifications\": {\r\n      \"resolutionMP\": 33.0,\r\n      \"videoCapability\": \"4K 60p\",\r\n      \"mountType\": \"Sony E\",\r\n      \"sensorType\": \"Full-Frame\"\r\n    },\r\n    \"categoryId\": \"c3e48a4f-b2d7-48c8-9461-35c7bb2d0810\"\r\n  }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
-              "raw": ""
+              "raw": "https://rent-aero.vercel.app/api/gear",
+              "protocol": "https",
+              "host": [
+                "rent-aero",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "gear"
+              ]
             }
           },
           "response": []
@@ -149,10 +332,29 @@
         {
           "name": "update gear",
           "request": {
-            "method": "GET",
+            "method": "PUT",
             "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Sony Alpha B8 Camera\",\r\n    \"description\": \"Updated testing in description\",\r\n    \"brand\": \"Sony\"\r\n  }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
-              "raw": ""
+              "raw": "https://rent-aero.vercel.app/gear/f70ed76e-350c-44cb-8ebc-89ee67bc175d",
+              "protocol": "https",
+              "host": [
+                "rent-aero",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "gear",
+                "f70ed76e-350c-44cb-8ebc-89ee67bc175d"
+              ]
             }
           },
           "response": []
@@ -160,10 +362,21 @@
         {
           "name": "delete gear",
           "request": {
-            "method": "GET",
+            "method": "DELETE",
             "header": [],
             "url": {
-              "raw": ""
+              "raw": "https://rent-aero.vercel.app/api/gear/117e115b-f1d4-4b97-b3c7-d6d94bd13951",
+              "protocol": "https",
+              "host": [
+                "rent-aero",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "gear",
+                "117e115b-f1d4-4b97-b3c7-d6d94bd13951"
+              ]
             }
           },
           "response": []
@@ -174,7 +387,64 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": ""
+              "raw": "https://rent-aero.vercel.app/api/gear",
+              "protocol": "https",
+              "host": [
+                "rent-aero",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "gear"
+              ],
+              "query": [
+                {
+                  "key": "searchTerm",
+                  "value": "camera",
+                  "disabled": true
+                },
+                {
+                  "key": "category",
+                  "value": "photography-video",
+                  "disabled": true
+                },
+                {
+                  "key": "minPrice",
+                  "value": "30",
+                  "disabled": true
+                },
+                {
+                  "key": "maxPrice",
+                  "value": "100",
+                  "disabled": true
+                },
+                {
+                  "key": "sortBy",
+                  "value": "pricePerDay",
+                  "disabled": true
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "asc",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "disabled": true
+                },
+                {
+                  "key": "limit",
+                  "value": "5",
+                  "disabled": true
+                },
+                {
+                  "key": "isAvailable",
+                  "value": "true",
+                  "disabled": true
+                }
+              ]
             }
           },
           "response": []
@@ -185,7 +455,18 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": ""
+              "raw": "https://rent-aero.vercel.app/api/gear/274b7a30-9979-40e6-a92d-24ce09a05899",
+              "protocol": "https",
+              "host": [
+                "rent-aero",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "gear",
+                "274b7a30-9979-40e6-a92d-24ce09a05899"
+              ]
             }
           },
           "response": []
@@ -198,10 +479,29 @@
         {
           "name": "create rental order by customer",
           "request": {
-            "method": "GET",
+            "method": "POST",
             "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"startDate\": \"2026-09-21T10:00:00.000Z\",\r\n    \"endDate\": \"2026-09-22T10:00:00.000Z\",\r\n    \"items\": [\r\n        {\r\n            \"gearId\": \"274b7a30-9979-40e6-a92d-24ce09a05899\",\r\n            \"quantity\": 2\r\n        }\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
-              "raw": ""
+              "raw": "https://rent-aero.vercel.app/api/rentals",
+              "protocol": "https",
+              "host": [
+                "rent-aero",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "rentals"
+              ]
             }
           },
           "response": []
@@ -212,7 +512,18 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": ""
+              "raw": "https://rent-aero.vercel.app/api/rentals/my-rentals",
+              "protocol": "https",
+              "host": [
+                "rent-aero",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "rentals",
+                "my-rentals"
+              ]
             }
           },
           "response": []
@@ -223,7 +534,18 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": ""
+              "raw": "https://rent-aero.vercel.app/api/rentals/provider-orders",
+              "protocol": "https",
+              "host": [
+                "rent-aero",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "rentals",
+                "provider-orders"
+              ]
             }
           },
           "response": []
@@ -234,7 +556,18 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": ""
+              "raw": "https://rent-aero.vercel.app/api/rentals/all-rentals-orders",
+              "protocol": "https",
+              "host": [
+                "rent-aero",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "rentals",
+                "all-rentals-orders"
+              ]
             }
           },
           "response": []
@@ -242,10 +575,31 @@
         {
           "name": "update order status",
           "request": {
-            "method": "GET",
+            "method": "PATCH",
             "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"status\" : \"RETURNED\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
-              "raw": ""
+              "raw": "https://rent-aero.vercel.app/api/rentals/0e32ac7a-948c-42a3-a140-c1f3dc3b0c96/status",
+              "protocol": "https",
+              "host": [
+                "rent-aero",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "rentals",
+                "0e32ac7a-948c-42a3-a140-c1f3dc3b0c96",
+                "status"
+              ]
             }
           },
           "response": []
@@ -256,7 +610,18 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": ""
+              "raw": "https://rent-aero.vercel.app/api/rentals/0e32ac7a-948c-42a3-a140-c1f3dc3b0c96",
+              "protocol": "https",
+              "host": [
+                "rent-aero",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "rentals",
+                "0e32ac7a-948c-42a3-a140-c1f3dc3b0c96"
+              ]
             }
           },
           "response": []
@@ -269,10 +634,22 @@
         {
           "name": "create checkout session",
           "request": {
-            "method": "GET",
+            "method": "POST",
             "header": [],
             "url": {
-              "raw": ""
+              "raw": "https://rent-aero.vercel.app/api/payments/checkout/0e32ac7a-948c-42a3-a140-c1f3dc3b0c96",
+              "protocol": "https",
+              "host": [
+                "rent-aero",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "payments",
+                "checkout",
+                "0e32ac7a-948c-42a3-a140-c1f3dc3b0c96"
+              ]
             }
           },
           "response": []
@@ -283,7 +660,17 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": ""
+              "raw": "https://rent-aero.vercel.app/api/payments",
+              "protocol": "https",
+              "host": [
+                "rent-aero",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "payments"
+              ]
             }
           },
           "response": []
@@ -294,7 +681,18 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": ""
+              "raw": "https://rent-aero.vercel.app/api/payments/eaabd7fe-7ca4-4baa-834d-61a7e502d248",
+              "protocol": "https",
+              "host": [
+                "rent-aero",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "payments",
+                "eaabd7fe-7ca4-4baa-834d-61a7e502d248"
+              ]
             }
           },
           "response": []
@@ -307,10 +705,29 @@
         {
           "name": "create review",
           "request": {
-            "method": "GET",
+            "method": "POST",
             "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"gearId\" : \"274b7a30-9979-40e6-a92d-24ce09a05899\",\r\n    \"orderId\" : \"0e32ac7a-948c-42a3-a140-c1f3dc3b0c96\",\r\n    \"rating\": 4.5,\r\n    \"comment\": \"Really nice product\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
-              "raw": ""
+              "raw": "https://rent-aero.vercel.app/api/reviews",
+              "protocol": "https",
+              "host": [
+                "rent-aero",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "reviews"
+              ]
             }
           },
           "response": []
@@ -318,10 +735,30 @@
         {
           "name": "update review",
           "request": {
-            "method": "GET",
+            "method": "PATCH",
             "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"rating\": 4.5\r\n    \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
-              "raw": ""
+              "raw": "https://rent-aero.vercel.app/api/reviews/5ad765ac-3c46-4d1d-9fb0-ce607ff306d3",
+              "protocol": "https",
+              "host": [
+                "rent-aero",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "reviews",
+                "5ad765ac-3c46-4d1d-9fb0-ce607ff306d3"
+              ]
             }
           },
           "response": []
