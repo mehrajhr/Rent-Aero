@@ -33,6 +33,7 @@ Follow these steps to set up and run the project locally on your machine.
 ### 1. Clone the Repository
 ```bash
 git clone [https://github.com/mehrajhr/Rent-Aero.git]
+```
 
 ### 2. Install Dependencies
 
@@ -45,3 +46,15 @@ Replace .env.example of this project
 ### 4. Run the Development Server
 
 npm run dev
+
+
+## 📄 API Documentation
+
+The complete Postman Collection is included in this repository for testing and reviewing all RESTful endpoints.
+
+* **Collection File**: You can find the raw JSON file in the root directory: [`rent-aero.postman_collection.json`](./rent-aero.postman_collection.json)
+* **How to Use**:
+  1. Download or clone this repository.
+  2. Open **Postman**.
+  3. Click on **Import** and select the `rent-aero.postman_collection.json` file.
+  4. Set up your environment variables (e.g., `baseUrl`) to test local or production endpoints seamlessly.
