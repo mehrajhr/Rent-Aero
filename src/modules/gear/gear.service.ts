@@ -198,6 +198,22 @@ const getSingleGearItem = async (id: string) => {
   return { ...gearItem, totalReviews, averageRating };
 };
 
+const getMyGearsFromDB = async (providerId: string) => {
+  const result = await prisma.gearItem.findMany({
+    where: {
+      providerId: providerId,
+    },
+    include: {
+      category: true,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  return result;
+};
+
 const createGear = async (providerId: string, payload: ICreateGear) => {
   const {
     name,
@@ -354,4 +370,5 @@ export const gearService = {
   deleteGear,
   getGearItem,
   getSingleGearItem,
+  getMyGearsFromDB
 };

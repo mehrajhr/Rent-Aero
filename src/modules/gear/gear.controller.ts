@@ -48,6 +48,21 @@ const createGear = catchAsync(
   },
 );
 
+const getMyGears = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.user?.id as string;
+
+    const result = await gearService.getMyGearsFromDB(userId);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "My gears fetched successfully.",
+      data: result,
+    });
+  },
+);
+
 const updateGear = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const id = req.params?.id as string;
@@ -89,4 +104,5 @@ export const gearController = {
   createGear,
   updateGear,
   deleteGear,
+  getMyGears,
 };

@@ -51,7 +51,7 @@ const createCheckoutSession = async (orderId: string, customerId: string) => {
     line_items: [
       {
         price_data: {
-          currency: "bdt",
+          currency: "usd",
           product_data: {
             name: `Rental Order #${order.id.slice(0, 8)}`,
             description: `Rental payment for gear items.`,
