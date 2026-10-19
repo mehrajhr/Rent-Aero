@@ -14,7 +14,7 @@ const getAllUser = async () => {
   return users;
 };
 
-const updateUserStatus = async (id: string, status: UserStatus) => {
+const updateUserStatus = async (id: string, status: UserStatus, role: string) => {
   const existingUser = await prisma.user.findUnique({
     where: {
       id,
@@ -25,7 +25,7 @@ const updateUserStatus = async (id: string, status: UserStatus) => {
     throw new Error("User not found.");
   }
 
-  if (status !== UserStatus.ACTIVE && status !== UserStatus.SUSPENDED) {
+  if (status && status !== UserStatus.ACTIVE && status !== UserStatus.SUSPENDED) {
     throw new Error(
       "Invalid status. Allowed statuses are ACTIVE or SUSPENDED.",
     );
@@ -37,6 +37,7 @@ const updateUserStatus = async (id: string, status: UserStatus) => {
     },
     data: {
       status,
+      role : role as "ADMIN" | "CUSTOMER" | "PROVIDER",
     },
     omit: {
       password: true,

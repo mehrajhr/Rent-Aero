@@ -86,8 +86,9 @@ const deleteGear = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const gearId = req.params?.id;
     const userId = req.user?.id;
+    const role = req.user?.role;
 
-    await gearService.deleteGear(gearId as string, userId as string);
+    await gearService.deleteGear(gearId as string, userId as string, role as string);
 
     sendResponse(res, {
       success: true,

@@ -13,7 +13,7 @@ router.post("/", auth(Role.PROVIDER), gearController.createGear);
 router.put("/:id", auth(Role.PROVIDER), gearController.updateGear);
 router.delete(
   "/:id",
-  auth(Role.ADMIN, Role.CUSTOMER, Role.PROVIDER),
+  auth(Role.ADMIN, Role.PROVIDER),
   gearController.deleteGear,
 );
 

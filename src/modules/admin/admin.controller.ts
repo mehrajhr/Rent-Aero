@@ -20,14 +20,22 @@ const getAllUser = catchAsync(
 const updateUserStatus = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
-    const { status } = req.body;
-    if (!status) {
-      throw new Error("status is required");
+    const { status, role } = req.body;
+    if (!status && !role) {
+      throw new Error("status or role are required");
+    }
+    if (role) {
+      if (role !== "ADMIN" && role !== "CUSTOMER" && role !== "PROVIDER") {
+        throw new Error(
+          "Invalid role. Allowed roles are ADMIN, CUSTOMER, or PROVIDER.",
+        );
+      }
     }
     // console.log(id , status)
     const updatedUser = await adminService.updateUserStatus(
       id as string,
       status,
+      role,
     );
 
     sendResponse(res, {

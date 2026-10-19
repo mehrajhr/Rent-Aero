@@ -344,7 +344,7 @@ const updateGear = async (
   return updatedGear;
 };
 
-const deleteGear = async (gearId: string, userId: string) => {
+const deleteGear = async (gearId: string, userId: string, role: string) => {
   const existingGear = await prisma.gearItem.findUnique({
     where: { id: gearId },
   });
@@ -353,7 +353,7 @@ const deleteGear = async (gearId: string, userId: string) => {
     throw new Error("Gear item not found.");
   }
 
-  if (existingGear.providerId !== userId) {
+  if (existingGear.providerId !== userId && role !== "ADMIN") {
     throw new Error(
       "Unauthorized: You do not have permission to delete this gear item.",
     );

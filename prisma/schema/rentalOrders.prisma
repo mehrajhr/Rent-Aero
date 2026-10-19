@@ -27,7 +27,7 @@ model RentalItem {
     order   RentalOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
 
     gearId String
-    gear   GearItem @relation(fields: [gearId], references: [id])
+    gear   GearItem @relation(fields: [gearId], references: [id], onDelete: Cascade)
 
     quantity      Int   @default(1)
     priceAtRental Float
