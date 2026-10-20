@@ -3,9 +3,6 @@ import type { ICreateCategory, IUpdateCategory } from "./category.interface";
 
 const getAllCategories = async () => {
   const categories = await prisma.category.findMany({
-    where: {
-      isActive: true,
-    },
     orderBy: {
       name: "asc",
     },
