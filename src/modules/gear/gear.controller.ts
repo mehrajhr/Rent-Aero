@@ -33,6 +33,25 @@ const getSingleGear = catchAsync(
   },
 );
 
+const getGearAvailability = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const gearId = req.params.id as string;
+    const { startDate, endDate } = req.query;
+    const result = await gearService.getAvailabilityForGear(
+      gearId,
+      startDate,
+      endDate,
+    );
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Gear availability fetched successfully.",
+      data: result,
+    });
+  },
+);
+
 const createGear = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const id = req.user?.id;
@@ -102,6 +121,7 @@ const deleteGear = catchAsync(
 export const gearController = {
   getGear,
   getSingleGear,
+  getGearAvailability,
   createGear,
   updateGear,
   deleteGear,

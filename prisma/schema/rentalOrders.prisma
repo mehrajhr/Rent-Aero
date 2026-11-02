@@ -14,11 +14,24 @@ model RentalOrder {
     items   RentalItem[]
     reviews Review[]
     payment Payment?
+    statusHistory RentalOrderStatusHistory[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
     @@map("rentalOrders")
+}
+
+model RentalOrderStatusHistory {
+    id          String      @id @default(uuid())
+    orderId     String
+    order       RentalOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+    status      OrderStatus
+    changedById String?
+    createdAt   DateTime    @default(now())
+
+    @@index([orderId, createdAt])
+    @@map("rental_order_status_history")
 }
 
 model RentalItem {

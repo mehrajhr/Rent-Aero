@@ -38,6 +38,11 @@ export type Payment = Prisma.PaymentModel
  */
 export type RentalOrder = Prisma.RentalOrderModel
 /**
+ * Model RentalOrderStatusHistory
+ * 
+ */
+export type RentalOrderStatusHistory = Prisma.RentalOrderStatusHistoryModel
+/**
  * Model RentalItem
  * 
  */

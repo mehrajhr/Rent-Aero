@@ -27,6 +27,8 @@ export interface IGearFilterRequest {
   isAvailable?: string | boolean;
   minPrice?: string | number;
   maxPrice?: string | number;
+  startDate?: string;
+  endDate?: string;
   sortBy?: string;
   sortOrder?: "asc" | "desc";
   page?: string | number;

@@ -1,6 +1,7 @@
 import { Role, type Prisma } from "../../../prisma/generated/prisma/browser";
 import { OrderStatus } from "../../../prisma/generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
+import { RESERVING_ORDER_STATUSES } from "../gear/gearAvailability";
 import type { ICreateRentalPayload } from "./rentalOrders.interface";
 
 const createRentalOrders = async (
@@ -76,12 +77,7 @@ const createRentalOrders = async (
         gearId: item.gearId,
         order: {
           status: {
-            in: [
-              OrderStatus.PLACED,
-              OrderStatus.CONFIRMED,
-              OrderStatus.PAID,
-              OrderStatus.PICKED_UP,
-            ],
+            in: RESERVING_ORDER_STATUSES,
           },
           startDate: { lt: end },
           endDate: { gt: start },
@@ -90,7 +86,7 @@ const createRentalOrders = async (
     });
 
     const bookedQuantity = existingBookings._sum.quantity || 0;
-    const totalStock = gearItem.stock || 1;
+    const totalStock = Math.max(0, gearItem.stock);
     const availableStock = totalStock - bookedQuantity;
 
     if (quantity > availableStock) {
@@ -145,6 +141,14 @@ const createRentalOrders = async (
             gear: true,
           },
         },
+      },
+    });
+
+    await tx.rentalOrderStatusHistory.create({
+      data: {
+        orderId: rentalOrder.id,
+        status: OrderStatus.PLACED,
+        changedById: customerId,
       },
     });
 
@@ -266,10 +270,7 @@ const updateOrderStatus = async (
       );
     }
 
-    return await prisma.rentalOrder.update({
-      where: { id: orderId },
-      data: { status: newStatus },
-    });
+    return await updateStatusWithHistory(orderId, newStatus, userId);
   }
 
   if (order.providerId === userId) {
@@ -286,14 +287,34 @@ const updateOrderStatus = async (
       );
     }
 
-    return await prisma.rentalOrder.update({
-      where: { id: orderId },
-      data: { status: newStatus },
-    });
+    return await updateStatusWithHistory(orderId, newStatus, userId);
   }
 
   throw new Error("You do not have permission to update this order.");
 };
+
+const updateStatusWithHistory = async (
+  orderId: string,
+  status: OrderStatus,
+  changedById: string,
+) =>
+  prisma.$transaction(async (tx) => {
+    const order = await tx.rentalOrder.findUnique({
+      where: { id: orderId },
+      select: { status: true },
+    });
+    if (!order) throw new Error("Order not found.");
+    if (order.status === status) return tx.rentalOrder.findUniqueOrThrow({ where: { id: orderId } });
+
+    const updated = await tx.rentalOrder.update({
+      where: { id: orderId },
+      data: { status },
+    });
+    await tx.rentalOrderStatusHistory.create({
+      data: { orderId, status, changedById },
+    });
+    return updated;
+  });
 
 const rentalOrderDetails = async (
   orderId: string,
@@ -310,6 +331,7 @@ const rentalOrderDetails = async (
           gear: true,
         },
       },
+      statusHistory: { orderBy: { createdAt: "asc" } },
     },
   });
 

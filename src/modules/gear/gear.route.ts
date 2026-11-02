@@ -7,6 +7,7 @@ const router = Router();
 
 router.get("/", gearController.getGear);
 router.get("/my-gear", auth(Role.PROVIDER), gearController.getMyGears);
+router.get("/:id/availability", gearController.getGearAvailability);
 router.get("/:id", gearController.getSingleGear);
 
 router.post("/", auth(Role.PROVIDER), gearController.createGear);

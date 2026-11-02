@@ -5,6 +5,11 @@ import type {
   IGearFilterRequest,
   IUpdateGear,
 } from "./gear.interface";
+import {
+  getBookedQuantitiesByGear,
+  getGearAvailability,
+  parseRentalDateRange,
+} from "./gearAvailability";
 
 const getGearItem = async (filters: IGearFilterRequest) => {
   const {
@@ -14,6 +19,8 @@ const getGearItem = async (filters: IGearFilterRequest) => {
     minPrice,
     maxPrice,
     isAvailable,
+    startDate,
+    endDate,
     sortBy = "createdAt",
     sortOrder = "desc",
     page = 1,
@@ -23,6 +30,10 @@ const getGearItem = async (filters: IGearFilterRequest) => {
   const pageNumber = Number(page);
   const limitNumber = Number(limit);
   const skip = (pageNumber - 1) * limitNumber;
+  const dateRange =
+    startDate !== undefined || endDate !== undefined
+      ? parseRentalDateRange(startDate, endDate)
+      : null;
 
   const andConditions: GearItemWhereInput[] = [];
 
@@ -93,53 +104,79 @@ const getGearItem = async (filters: IGearFilterRequest) => {
     });
   }
 
-  const gearItems = await prisma.gearItem.findMany({
-    where: {
-      AND: andConditions,
-    },
-    skip,
-    take: limitNumber,
-    orderBy: {
-      [sortBy]: sortOrder,
-    },
-    include: {
-      provider: {
-        select: {
-          id: true,
-          name: true,
-          email: true,
-        },
-      },
-      category: {
-        select: {
-          id: true,
-          name: true,
-          slug: true,
-        },
-      },
+  if (dateRange) {
+    andConditions.push({ isAvailable: true });
+  }
 
-      reviews: {
-        include: {
-          user: {
-            select: {
-              id: true,
-              name: true,
-              email: true,
-            },
+  const where = { AND: andConditions };
+  const include = {
+    provider: {
+      select: {
+        id: true,
+        name: true,
+        email: true,
+      },
+    },
+    category: {
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+      },
+    },
+    reviews: {
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
           },
         },
-        orderBy: {
-          createdAt: "desc",
-        },
+      },
+      orderBy: {
+        createdAt: "desc" as const,
       },
     },
-  });
+  };
 
-  const totalGearCount = await prisma.gearItem.count({
-    where: {
-      AND: andConditions,
-    },
-  });
+  let gearItems;
+  let totalGearCount: number;
+
+  if (dateRange) {
+    const candidates = await prisma.gearItem.findMany({
+      where,
+      orderBy: { [sortBy]: sortOrder },
+      include,
+    });
+    const bookedQuantities = await getBookedQuantitiesByGear(
+      candidates.map((gear) => gear.id),
+      dateRange,
+    );
+    const availableGearItems = candidates
+      .map((gear) => ({
+        ...gear,
+        availableStock: Math.max(
+          0,
+          gear.stock - (bookedQuantities.get(gear.id) ?? 0),
+        ),
+      }))
+      .filter((gear) => gear.availableStock > 0);
+
+    totalGearCount = availableGearItems.length;
+    gearItems = availableGearItems.slice(skip, skip + limitNumber);
+  } else {
+    [gearItems, totalGearCount] = await Promise.all([
+      prisma.gearItem.findMany({
+        where,
+        skip,
+        take: limitNumber,
+        orderBy: { [sortBy]: sortOrder },
+        include,
+      }),
+      prisma.gearItem.count({ where }),
+    ]);
+  }
 
   const processedGearItems = gearItems.map((gear) => {
     const totalReviews = gear.reviews.length;
@@ -213,6 +250,12 @@ const getMyGearsFromDB = async (providerId: string) => {
 
   return result;
 };
+
+const getAvailabilityForGear = async (
+  gearId: string,
+  startDate: unknown,
+  endDate: unknown,
+) => getGearAvailability(gearId, startDate, endDate);
 
 const createGear = async (providerId: string, payload: ICreateGear) => {
   const {
@@ -370,5 +413,6 @@ export const gearService = {
   deleteGear,
   getGearItem,
   getSingleGearItem,
-  getMyGearsFromDB
+  getMyGearsFromDB,
+  getAvailabilityForGear,
 };

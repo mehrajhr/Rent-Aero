@@ -111,14 +111,23 @@ const handleWebhook = async (signature: string, payload: Buffer) => {
         },
       });
 
-      await tx.rentalOrder.update({
-        where: {
-          id: orderId,
-        },
-        data: {
-          status: OrderStatus.PAID,
-        },
+      const order = await tx.rentalOrder.findUnique({
+        where: { id: orderId },
+        select: { status: true },
       });
+      if (!order) throw new Error("Order not found.");
+      if (
+        order.status === OrderStatus.PLACED ||
+        order.status === OrderStatus.CONFIRMED
+      ) {
+        await tx.rentalOrder.update({
+          where: { id: orderId },
+          data: { status: OrderStatus.PAID },
+        });
+        await tx.rentalOrderStatusHistory.create({
+          data: { orderId, status: OrderStatus.PAID },
+        });
+      }
     });
 
     return {

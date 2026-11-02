@@ -401,6 +401,7 @@ export const ModelName = {
   GearItem: 'GearItem',
   Payment: 'Payment',
   RentalOrder: 'RentalOrder',
+  RentalOrderStatusHistory: 'RentalOrderStatusHistory',
   RentalItem: 'RentalItem',
   Review: 'Review',
   User: 'User'
@@ -419,7 +420,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "category" | "gearItem" | "payment" | "rentalOrder" | "rentalItem" | "review" | "user"
+    modelProps: "category" | "gearItem" | "payment" | "rentalOrder" | "rentalOrderStatusHistory" | "rentalItem" | "review" | "user"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -716,6 +717,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.RentalOrderCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.RentalOrderCountAggregateOutputType> | number
+        }
+      }
+    }
+    RentalOrderStatusHistory: {
+      payload: Prisma.$RentalOrderStatusHistoryPayload<ExtArgs>
+      fields: Prisma.RentalOrderStatusHistoryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RentalOrderStatusHistoryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RentalOrderStatusHistoryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RentalOrderStatusHistoryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RentalOrderStatusHistoryPayload>
+        }
+        findFirst: {
+          args: Prisma.RentalOrderStatusHistoryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RentalOrderStatusHistoryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RentalOrderStatusHistoryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RentalOrderStatusHistoryPayload>
+        }
+        findMany: {
+          args: Prisma.RentalOrderStatusHistoryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RentalOrderStatusHistoryPayload>[]
+        }
+        create: {
+          args: Prisma.RentalOrderStatusHistoryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RentalOrderStatusHistoryPayload>
+        }
+        createMany: {
+          args: Prisma.RentalOrderStatusHistoryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.RentalOrderStatusHistoryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RentalOrderStatusHistoryPayload>[]
+        }
+        delete: {
+          args: Prisma.RentalOrderStatusHistoryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RentalOrderStatusHistoryPayload>
+        }
+        update: {
+          args: Prisma.RentalOrderStatusHistoryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RentalOrderStatusHistoryPayload>
+        }
+        deleteMany: {
+          args: Prisma.RentalOrderStatusHistoryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RentalOrderStatusHistoryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.RentalOrderStatusHistoryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RentalOrderStatusHistoryPayload>[]
+        }
+        upsert: {
+          args: Prisma.RentalOrderStatusHistoryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RentalOrderStatusHistoryPayload>
+        }
+        aggregate: {
+          args: Prisma.RentalOrderStatusHistoryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRentalOrderStatusHistory>
+        }
+        groupBy: {
+          args: Prisma.RentalOrderStatusHistoryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RentalOrderStatusHistoryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RentalOrderStatusHistoryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RentalOrderStatusHistoryCountAggregateOutputType> | number
         }
       }
     }
@@ -1040,6 +1115,17 @@ export const RentalOrderScalarFieldEnum = {
 } as const
 
 export type RentalOrderScalarFieldEnum = (typeof RentalOrderScalarFieldEnum)[keyof typeof RentalOrderScalarFieldEnum]
+
+
+export const RentalOrderStatusHistoryScalarFieldEnum = {
+  id: 'id',
+  orderId: 'orderId',
+  status: 'status',
+  changedById: 'changedById',
+  createdAt: 'createdAt'
+} as const
+
+export type RentalOrderStatusHistoryScalarFieldEnum = (typeof RentalOrderStatusHistoryScalarFieldEnum)[keyof typeof RentalOrderStatusHistoryScalarFieldEnum]
 
 
 export const RentalItemScalarFieldEnum = {
@@ -1415,6 +1501,7 @@ export type GlobalOmitConfig = {
   gearItem?: Prisma.GearItemOmit
   payment?: Prisma.PaymentOmit
   rentalOrder?: Prisma.RentalOrderOmit
+  rentalOrderStatusHistory?: Prisma.RentalOrderStatusHistoryOmit
   rentalItem?: Prisma.RentalItemOmit
   review?: Prisma.ReviewOmit
   user?: Prisma.UserOmit
